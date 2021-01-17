@@ -57,7 +57,13 @@
                             <outlet property="delegate" destination="lDA-bh-PHc" id="IEx-Uw-olt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="ZGb-8F-cfb"/>
+                    <navigationItem key="navigationItem" id="ZGb-8F-cfb">
+                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="4aa-ry-Fje">
+                            <connections>
+                                <action selector="reload" destination="lDA-bh-PHc" id="310-3l-mcj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="GAM-Nl-UII" kind="show" identifier="ShowStation" id="PaQ-gl-8nt"/>
                     </connections>

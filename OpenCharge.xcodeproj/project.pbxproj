@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,8 +13,10 @@
 		FF63A96025B4634700B44A96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF63A95F25B4634700B44A96 /* Assets.xcassets */; };
 		FF63A96325B4634700B44A96 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF63A96125B4634700B44A96 /* LaunchScreen.storyboard */; };
 		FF63A97225B46BE200B44A96 /* StationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF63A97125B46BE200B44A96 /* StationsViewController.swift */; };
-		FF63A97525B4745F00B44A96 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF63A97425B4745F00B44A96 /* Station.swift */; };
+		FF63A97525B4745F00B44A96 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF63A97425B4745F00B44A96 /* Models.swift */; };
 		FF63A97825B4831100B44A96 /* StationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF63A97725B4831100B44A96 /* StationDetailViewController.swift */; };
+		FF63A97E25B4D64C00B44A96 /* StationViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF63A97D25B4D64C00B44A96 /* StationViewCell.swift */; };
+		FF63A98325B4D8AA00B44A96 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FF63A98225B4D8AA00B44A96 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,8 +28,9 @@
 		FF63A96225B4634700B44A96 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF63A96425B4634700B44A96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FF63A97125B46BE200B44A96 /* StationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsViewController.swift; sourceTree = "<group>"; };
-		FF63A97425B4745F00B44A96 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		FF63A97425B4745F00B44A96 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		FF63A97725B4831100B44A96 /* StationDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailViewController.swift; sourceTree = "<group>"; };
+		FF63A97D25B4D64C00B44A96 /* StationViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF63A98325B4D8AA00B44A96 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,8 +71,9 @@
 				FF63A96125B4634700B44A96 /* LaunchScreen.storyboard */,
 				FF63A96425B4634700B44A96 /* Info.plist */,
 				FF63A97125B46BE200B44A96 /* StationsViewController.swift */,
-				FF63A97425B4745F00B44A96 /* Station.swift */,
+				FF63A97425B4745F00B44A96 /* Models.swift */,
 				FF63A97725B4831100B44A96 /* StationDetailViewController.swift */,
+				FF63A97D25B4D64C00B44A96 /* StationViewCell.swift */,
 			);
 			path = OpenCharge;
 			sourceTree = "<group>";
@@ -89,6 +94,9 @@
 			dependencies = (
 			);
 			name = OpenCharge;
+			packageProductDependencies = (
+				FF63A98225B4D8AA00B44A96 /* Alamofire */,
+			);
 			productName = OpenCharge;
 			productReference = FF63A95325B4634100B44A96 /* OpenCharge.app */;
 			productType = "com.apple.product-type.application";
@@ -116,6 +124,9 @@
 				Base,
 			);
 			mainGroup = FF63A94A25B4634100B44A96;
+			packageReferences = (
+				FF63A98125B4D8AA00B44A96 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = FF63A95425B4634100B44A96 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -145,7 +156,8 @@
 			files = (
 				FF63A95725B4634100B44A96 /* AppDelegate.swift in Sources */,
 				FF63A97225B46BE200B44A96 /* StationsViewController.swift in Sources */,
-				FF63A97525B4745F00B44A96 /* Station.swift in Sources */,
+				FF63A97525B4745F00B44A96 /* Models.swift in Sources */,
+				FF63A97E25B4D64C00B44A96 /* StationViewCell.swift in Sources */,
 				FF63A95925B4634100B44A96 /* SceneDelegate.swift in Sources */,
 				FF63A97825B4831100B44A96 /* StationDetailViewController.swift in Sources */,
 			);
@@ -295,6 +307,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = FS7255RMLR;
 				INFOPLIST_FILE = OpenCharge/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -313,6 +326,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = FS7255RMLR;
 				INFOPLIST_FILE = OpenCharge/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -347,6 +361,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FF63A98125B4D8AA00B44A96 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FF63A98225B4D8AA00B44A96 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF63A98125B4D8AA00B44A96 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FF63A94B25B4634100B44A96 /* Project object */;
 }
