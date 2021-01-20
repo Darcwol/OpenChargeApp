@@ -10,7 +10,6 @@ struct Station: Codable {
     let usageType: UsageType?
     let usageCost: String?
     let addressInfo: AddressInfo
-    let connections: [Connection]
     let generalComments: String?
 
     enum CodingKeys: String, CodingKey {
@@ -18,7 +17,6 @@ struct Station: Codable {
         case usageType = "UsageType"
         case usageCost = "UsageCost"
         case addressInfo = "AddressInfo"
-        case connections = "Connections"
         case generalComments = "GeneralComments"
     }
 }
@@ -47,53 +45,6 @@ struct AddressInfo: Codable {
     }
 }
 
-struct Connection: Codable {
-    let connectionType: ConnectionType
-    let level: Level
-    let amps: Int?
-    let voltage: Int?
-    let powerKW: Double?
-    let currentType: CurrentType?
-
-    enum CodingKeys: String, CodingKey {
-        case connectionType = "ConnectionType"
-        case level = "Level"
-        case amps = "Amps"
-        case voltage = "Voltage"
-        case powerKW = "PowerKW"
-        case currentType = "CurrentType"
-    }
-}
-
-struct ConnectionType: Codable {
-    let formalName: String?
-    let title: String
-
-    enum CodingKeys: String, CodingKey {
-        case formalName = "FormalName"
-        case title = "Title"
-    }
-}
-
-struct CurrentType: Codable {
-    let title: String
-
-    enum CodingKeys: String, CodingKey {
-        case title = "Title"
-    }
-}
-
-struct Level: Codable {
-    let comments: String
-    let isFastChargeCapable: Bool
-    let title: String
-
-    enum CodingKeys: String, CodingKey {
-        case comments = "Comments"
-        case isFastChargeCapable = "IsFastChargeCapable"
-        case title = "Title"
-    }
-}
 
 struct OperatorInfo: Codable {
     let websiteURL: String?

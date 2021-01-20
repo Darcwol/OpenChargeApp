@@ -10,4 +10,5 @@ import UIKit
 class StationViewCell: UITableViewCell {
     @IBOutlet weak var stationDistanceLable: UILabel!
     @IBOutlet weak var stationNameLable: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
 }
