@@ -30,10 +30,10 @@ class StationsViewController:  UITableViewController, CLLocationManagerDelegate 
         let station = self.loadedStations[indexPath.row]
          
         cell.stationNameLable.text = station.addressInfo.title
-        let distance = station.addressInfo.distance
+        let distance = Measurement(value: station.addressInfo.distance, unit: UnitLength.miles).converted(to: UnitLength.kilometers).value
         
-         if distance >= 1 {
-             cell.stationDistanceLable.text = "\(distance) km"
+        if distance >= 1 {
+            cell.stationDistanceLable.text = "\(String(format: "%.2f", distance)) km"
          } else {
              cell.stationDistanceLable.text = "\(Int(distance*1000)) m"
          }
@@ -66,8 +66,8 @@ class StationsViewController:  UITableViewController, CLLocationManagerDelegate 
     @IBAction func reload() {
         locationMaganer.requestWhenInUseAuthorization()
         locationMaganer.delegate = self
-        locationMaganer.requestLocation()
         locationMaganer.desiredAccuracy = kCLLocationAccuracyBest
+        locationMaganer.requestLocation()
     }
     
     func reloadStations(coordinate: CLLocationCoordinate2D) {
@@ -78,14 +78,14 @@ class StationsViewController:  UITableViewController, CLLocationManagerDelegate 
                     self.loadedStations = stations.sorted { (s1, s2) -> Bool in s1.addressInfo.distance < s2.addressInfo.distance }
                     self.tableView.reloadData()
                 } catch {
-                    print(error)
+                    self.showErrorMessage(error.localizedDescription)
                 }
             }
         }
     }
     
-    func showErrorMessage(_ error: Error) {
-        let alert = UIAlertController(title: "Fail", message: error.localizedDescription, preferredStyle: .alert)
+    func showErrorMessage(_ message: String) {
+        let alert = UIAlertController(title: "Fail", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .cancel))
         alert.addAction(UIAlertAction(title: "Try again", style: .default) { _ in self.reload()})
         self.present(alert, animated: true)
@@ -99,13 +99,23 @@ class StationsViewController:  UITableViewController, CLLocationManagerDelegate 
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else {
-            self.showWaring("Test")
+            self.showWaring("No last location. Showing default location")
+            self.reloadStations(coordinate: CLLocationCoordinate2D(latitude: 52.237049, longitude: 21.017532))
             return
         }
         self.reloadStations(coordinate: lastLocation.coordinate)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        self.showErrorMessage(error)
+        guard let error = error as? CLError else {
+            self.showErrorMessage("Location cannot be fetched")
+            return
+        }
+        switch error.code {
+        case .denied:
+            self.reloadStations(coordinate: CLLocationCoordinate2D(latitude: 52.237049, longitude: 21.017532))
+        default:
+            self.showErrorMessage("Location cannot be fetched")
+        }
     }
 }

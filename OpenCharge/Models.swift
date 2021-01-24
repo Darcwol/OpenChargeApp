@@ -31,6 +31,8 @@ struct AddressInfo: Codable {
     let accessComments: String?
     let relatedURL: String?
     let distance: Double
+    let latitude: Double
+    let longitude: Double
 
     enum CodingKeys: String, CodingKey {
         case title = "Title"
@@ -42,6 +44,8 @@ struct AddressInfo: Codable {
         case accessComments = "AccessComments"
         case relatedURL = "RelatedURL"
         case distance = "Distance"
+        case latitude = "Latitude"
+        case longitude = "Longitude"
     }
 }
 

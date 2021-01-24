@@ -8,9 +8,10 @@
 import UIKit
 import MapKit
 
-class StationDetailViewController: UIViewController {
+class StationDetailViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     var station: Station? = nil
     let locationMaganer = CLLocationManager()
+    var userLocation = CLLocationCoordinate2D()
     @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var operatorInfo: UILabel!
     @IBOutlet weak var usageInfo: UILabel!
@@ -20,6 +21,7 @@ class StationDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         guard let station = station else {
             return
         }
@@ -59,7 +61,80 @@ class StationDetailViewController: UIViewController {
         } else {
             self.generalInfo.isHidden = true
         }
+        self.reload()
     }
+    
+    override func viewDidLoad() {
+        guard let station = self.station else {
+            return
+        }
+        let stationPoint = MKPointAnnotation()
+        stationPoint.title = station.addressInfo.title
+        let stationLocation = CLLocationCoordinate2D(latitude: station.addressInfo.latitude, longitude: station.addressInfo.longitude)
+        stationPoint.coordinate = stationLocation
+        map.addAnnotation(stationPoint)
+        let rect = MKMapRect(x: userLocation.latitude, y: userLocation.longitude, width: 0, height: 0).union(MKMapRect(x: stationLocation.latitude, y: stationLocation.longitude, width: 0, height: 0))
+        map.setVisibleMapRect(rect, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else { return nil }
+
+        let identifier = "Annotation"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView!.canShowCallout = true
+        } else {
+            annotationView!.annotation = annotation
+        }
+
+        return annotationView
+    }
+    
+    func reload() {
+        locationMaganer.requestWhenInUseAuthorization()
+        locationMaganer.delegate = self
+        locationMaganer.desiredAccuracy = kCLLocationAccuracyBest
+        locationMaganer.requestLocation()
+    }
+    
+    func showErrorMessage(_ message: String) {
+        let alert = UIAlertController(title: "Fail", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Try again", style: .default) { _ in self.reload()})
+        self.present(alert, animated: true)
+    }
+    
+    func showWaring(_ warning: String) {
+        let alert = UIAlertController(title: "Warning", message: warning, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        self.present(alert, animated: true)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let lastLocation = locations.last else {
+            self.showWaring("No last location. Showing default location")
+            self.userLocation = CLLocationCoordinate2D(latitude: 52.237049, longitude: 21.017532)
+            return
+        }
+        self.userLocation = lastLocation.coordinate
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        guard let error = error as? CLError else {
+            self.showErrorMessage("Location cannot be fetched")
+            return
+        }
+        switch error.code {
+        case .denied:
+            self.userLocation = CLLocationCoordinate2D(latitude: 52.237049, longitude: 21.017532)
+        default:
+            self.showErrorMessage("Location cannot be fetched")
+        }
+    }
+    
     @IBAction func call(_ sender: Any) {
         guard let station = station else {return}
         guard let phone = station.addressInfo.contactTelephone1 else {return}
